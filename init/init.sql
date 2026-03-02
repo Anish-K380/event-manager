@@ -5,10 +5,10 @@ create database event_manager;
 
 create table tiers (
        id bigserial primary key,
-       name text,
+       name text not null,
        offer_percentage numeric(5,2),
        offer_max(12,2),
-       status boolean,
+       status boolean not null,
        start_time timestamp default current_timestamp,
        end_time timestamp default current_timestamp,
        constraint c_tier_time check (start_time <= end_time)
@@ -29,13 +29,13 @@ create table users (
 create table wallet (
        id bigint primary key,
        balance numeric(12,2) default 0,
-       constraint c_no_debt check (balance >= 0)
+       constraint c_wallet_negative check (balance >= 0)
 );
 
 create table vendors (
        id bigserial primary key,
        name text not null,
-       status boolean,
+       status boolean not null,
        start_time timestamp default current_timestamp,
        end_time timestamp default current_timestamp,
        constraint c_vendor_time check (start_time <= end_time)
@@ -44,16 +44,16 @@ create table vendors (
 create table role (
        id bigserial primary key,
        name text not null,
-       status bool
+       status bool not null
 );
 
 create table employees (
        id bigserial primary key,
        name text not null,
        role bigint,
-       vendor_id bigint,
-       password_hash text,
-       status bool,
+       vendor_id bigint not null,
+       password_hash text not null,
+       status bool not null,
        start_time timestamp default current_timestamp,
        last_access timestamp default current_timestamp,
        constraint c_employee_time check (start_time <= last_acces),
@@ -64,10 +64,10 @@ create table employees (
 create table items (
        id bigserial primary key,
        name text not null,
-       vendor_id bigint,
-       price numeric(12,2),
-       stock bigint,
-       status boolean,
+       vendor_id bigint not null,
+       price numeric(12,2) not null,
+       stock bigint not null,
+       status boolean not null,
        start_time timestamp default current_timestamp,
        end_time timestamp default current_timestamp,
        constraint c_item_time check (start_time <= end_time),
@@ -78,10 +78,10 @@ create table items (
 create table item_group (
        id bigserial primary key,
        name text not null,
-       vendor_id bigint,
-       price numeric(12,2),
-       stock bigint,
-       status boolean,
+       vendor_id bigint not null,
+       price numeric(12,2) not null,
+       stock bigint not null,
+       status boolean not null,
        start_time timestamp default current_timestamp,
        end_time timestamp default current_timestamp,
        constraint c_itemgrp_time check (start_time <= end_time),
@@ -130,7 +130,7 @@ create table transactions (
        promo bigint,
        purchase_time timestamp default current_timestamp,
        promo_scope promo_type,
-       cost numeric(12,2),
+       cost numeric(12,2) not null,
        constraint c_promo_consistency check (
        		  promo is null and promo_scope is null
 		  or
@@ -159,3 +159,69 @@ create table history (
        constraint fk_item_group_id foreign key item_group_id references item_group(id),
        constraint fk_item_promo foreign key promo references promo_item(id)
 );
+
+create table topup_offer (
+       id bigserial primary key,
+       name text not null,
+       new_points numeric(12,2) not null,
+       start_time timestamp default current_timestamp,
+       end_time timestamp default current_timestamp,
+       constraint c_topupoffer_time check (start_time <= end_time)
+);
+
+create type payment_mode as enum ('netbanking', 'card', 'upi', 'cash');
+
+create type transaction_status as enum ('success', 'pending', 'failure', 'cancelled');
+
+create table topup (
+       id bigserial primary key,
+       user_id bigint not null,
+       mode payment_mode not null,
+       status transaction_status not null,
+       transaction_time timestamp default current_timestamp,
+       cost numeric(12,2) not null,
+       auth bigint,
+       points numeric(12,2) not null,
+       offer_id bigint,
+       reference_id text,
+       constraint c_auth check (mode <> 'cash' or auth is not null),
+       constraint c_reference check (mode = cash or reference_id is not null),
+       constraint fk_topup_user foreign key user_id references users(id),
+       constraint fk_topup_offer foreign key offer_id references topup_offer(id),
+       constraint fk_topup_auth foreign key auth references employees(id)
+);
+
+create type wallet_alter as enum ('topup', 'purchase', 'refund');
+
+create table ledger (
+       id bigint not null,
+       user_id bigint not null,
+       alter_type wallet_alter not null,
+       change numeric(12,2) not null,
+       change_time timestamp default current_timestamp,
+       constraint ledger_user foreign key user_id references users(id)
+);
+
+create table wastage (
+       id bigserial primary key,
+       item_id bigint not null,
+       qty bigint not null,
+       employee_id bigint not null,
+       remarks text,
+       wastage_time timestamp default current_timestamp,
+       constraint fk_wastage_item foreign key item_id references items(id),
+       constraint fk_wastage_auth foreign key employee_id references employees(id)
+);
+
+create table refund (
+       id bigserial primary key,
+       item_id bigint not null,
+       qty bigint not null,
+       employee_id bigint not null,
+       remarks text,
+       refund_time timestamp default current_timestamp,
+       constraint fk_refund_item foreign key item_id references items(id),
+       constraint fk_refund_auth foreign key employee_id references employees(id)
+);
+
+commit;
