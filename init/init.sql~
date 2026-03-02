@@ -1,0 +1,90 @@
+create database event_manager;
+\c event_manager;
+
+create table tiers (
+       id bigserial primary key,
+       name text,
+       offer_percentage numeric(5,2),
+       offer_max(12,2),
+       status boolean,
+       start_time timestamp default current_timestamp,
+       end_time timestamp default current_timestamp,
+       constraint c_tier_time check (start_time <= end_time)
+);
+
+create table users (
+       id bigserial primary key,
+       phone text unique not null,
+       name text not null,
+       password_hash text not null,
+       tier bigint,
+       history_retrieval timestamp default current_timestamp,
+       created timestamp default current_timestamp,
+       final_interaction timestamp default current_timestamp,
+       constraint fk_user_tier foreign key (tier) references tiers(id)
+);
+
+create table wallet (
+       id bigint primary key,
+       balance bigint default 0,
+       constraint c_no_debt check (balance >= 0)
+);
+
+create table vendors (
+       id bigserial primary key,
+       name text not null,
+       status boolean,
+       start_time timestamp default current_timestamp,
+       end_time timestamp default current_timestamp,
+       constraint c_vendor_time check (start_time <= end_time)
+);
+
+create table role (
+       id bigserial primary key,
+       name text not null,
+       status bool
+);
+
+create table employees (
+       id bigserial primary key,
+       name text not null,
+       role bigint,
+       vendor_id bigint,
+       password_hash text,
+       status bool,
+       start_time timestamp default current_timestamp,
+       last_access timestamp default current_timestamp,
+       constraint c_employee_time check (start_time <= last_acces),
+       constraint fk_emp_role foreign key (role) references role(id),
+       constraint fk_emp_vendor foreign key (vendor_id) references vendors(id)
+);
+
+create table items (
+       id bigserial primary key,
+       name text not null,
+       vendor_id bigint,
+       price numeric(12,2),
+       stock bigint,
+       status boolean,
+       start_time timestamp default current_timestamp,
+       end_time timestamp default current_timestamp,
+       constraint c_item_time check (start_time <= end_time),
+       constraint c_stock check (stock >= 0),
+       constraint fk_item_vendor foreign key (vendor_id) references vendors(id)
+);
+
+create table item_group (
+       id bigserial primary key,
+       name text not null,
+       vendor_id bigint,
+       price numeric(12,2),
+       stock bigint,
+       status boolean,
+       start_time timestamp default current_timestamp,
+       end_time timestamp default current_timestamp,
+       constraint c_itemgrp_time check (start_time <= end_time),
+       constraint c_stock check (stock >= 0),
+       constraint fk_itemgrp_vendor foreign key (vendor_id) references vendors(id)
+);
+
+create table item_group_detail (
