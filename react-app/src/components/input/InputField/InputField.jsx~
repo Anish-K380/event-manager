@@ -1,0 +1,12 @@
+//import './InputField.css';
+
+export const InputField = ({type, name, placeholder, state='', className='', ...props}) => {
+    return (
+	<input type={type}
+	       name={name}
+	       placeholder={placeholder}
+	       className={`input-field ${state} ${className}`}
+	       required
+	       {...props} />
+    );
+};

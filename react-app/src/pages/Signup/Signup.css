@@ -1,0 +1,75 @@
+k/* Signup.css */
+
+.signup-title {
+  text-align: center;
+  font-weight: 600;
+}
+
+.signup-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.signup-details {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.signup-button {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.signup-button:hover {
+  background: #15803d;
+}
+
+/* Username + button (VERTICAL grouping) */
+.username-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* tight spacing between input + button */
+}
+
+/* Button aligned to left (not full width) */
+.signup-username-button {
+  align-self: flex-start; /* keeps it close to input edge */
+  padding: 6px 10px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.signup-username-button:hover {
+  background: #1d4ed8;
+}
+
+.signup-link {
+  font-size: 0.9rem;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
