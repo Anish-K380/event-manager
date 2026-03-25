@@ -6,7 +6,7 @@ export const UsernameExists = async (username) => {
 	headers: {
 	    'content-type': 'application/json'
 	},
-	body: JSON.stringify({username, password})
+	body: JSON.stringify({username})
     });
 
     return response.json();

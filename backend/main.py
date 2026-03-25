@@ -26,10 +26,9 @@ async def login(data: dict):
 @app.post('/signup')
 async def signup(data: dict):
     print('Received', data)
-    await insertUser(data['username'], data['password'])
-    return {'message': 'got it'}
+    return {'message': await insertUser(data['username'], data['password'])}
 
 @app.post('/checkusername')
 async def checkusername(data: dict):
     print('Reieved', data)
-    return {'message': 'got it'}
+    return await checkUsername(data['username'])

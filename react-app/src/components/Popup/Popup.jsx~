@@ -1,0 +1,8 @@
+export const Popup = ({text = '', className = ''}) => {
+    return (
+	<div className={`popup-container ${className}`}>
+	    <p className='popup-text'>{text}</p>
+	    <button className='popup-button' type='button'>OK</button>
+	</div>
+    );
+};

@@ -4,6 +4,7 @@
   text-align: center;
   font-weight: 600;
   color: #000;
+  letter-spacing: 0.5px; /* subtle polish */
 }
 
 .signup-container {
@@ -13,6 +14,7 @@
   justify-content: center;
   align-items: center;
   gap: 16px;
+  background: #f8fafc; /* soft background */
 }
 
 .signup-details {
@@ -24,6 +26,13 @@
   flex-direction: column;
   gap: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* subtle hover lift */
+.signup-details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
 }
 
 .signup-button {
@@ -34,10 +43,15 @@
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s ease;
+  font-weight: 500;
 }
 
 .signup-button:hover {
   background: #15803d;
+}
+
+.signup-button:active {
+  transform: scale(0.98); /* click feel */
 }
 
 .signup-button:disabled {
@@ -45,16 +59,21 @@
   cursor: not-allowed;
 }
 
-/* Username + button (VERTICAL grouping) */
+.signup-username-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Username + button */
 .username-group {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* tight spacing between input + button */
+  gap: 6px; /* slightly more breathing room */
 }
 
-/* Button aligned to left (not full width) */
+/* Username check button */
 .signup-username-button {
-  align-self: flex-start; /* keeps it close to input edge */
+  align-self: flex-start;
   padding: 6px 10px;
   border: 1px solid #2563eb;
   border-radius: 6px;
@@ -63,11 +82,15 @@
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.2s ease, transform 0.1s ease;
 }
 
 .signup-username-button:hover {
   background: #1d4ed8;
+}
+
+.signup-username-button:active {
+  transform: scale(0.96);
 }
 
 .signup-link {
@@ -80,8 +103,50 @@
   text-decoration: underline;
 }
 
+/* Error */
 .error-text {
-    font-size: 0.8rem;
-    color:#ff0000;
-    text-decoration: none;
+  font-size: 0.8rem;
+  color: #dc2626; /* slightly softer red */
+}
+
+/* Username status (new, matches your logic) */
+.username-status {
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.username-status.available {
+  color: #16a34a;
+}
+
+.username-status.taken {
+  color: #dc2626;
+}
+
+.username-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Make it feel subtle, not loud */
+.username-status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.username-status.available {
+  color: #16a34a;
+}
+
+.username-status.taken {
+  color: #dc2626;
+}
+
+.password-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }

@@ -1,0 +1,12 @@
+import './PasswordStrength.css';
+import zxcvbn from 'zxcvbn';
+
+export const PasswordStrength = ({password}) => {
+    
+    const strengths = ['very weak', 'very weak', 'weak', 'good', 'strong'];
+    const strength = zxcvbn(password).score;
+    
+    return (
+	<p className='password-strength-line'>{`Password strength: ${strengths[strength]}`}</p>
+    );
+};

@@ -1,2 +1,0 @@
-export const CreateUser = async (username, password) => {
-    const response = await fetch('http:

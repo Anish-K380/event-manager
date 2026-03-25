@@ -1,3 +1,4 @@
 asyncpg
 bcrypt
 fastapi
+zxcvbn
