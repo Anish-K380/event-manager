@@ -1,0 +1,9 @@
+import bcrypt
+
+def encrypt(text :str) -> str:
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(text.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
+
+def verify(text :str, encrypted:str) -> bool:
+    return bcrypt.checkpw(text.encode('utf-8'), encrypted.encode('utf-8'))

@@ -1,8 +1,9 @@
-k/* Signup.css */
+/* Signup.css */
 
 .signup-title {
   text-align: center;
   font-weight: 600;
+  color: #000;
 }
 
 .signup-container {
@@ -39,6 +40,11 @@ k/* Signup.css */
   background: #15803d;
 }
 
+.signup-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Username + button (VERTICAL grouping) */
 .username-group {
   display: flex;
@@ -72,4 +78,10 @@ k/* Signup.css */
 
 .signup-link:hover {
   text-decoration: underline;
+}
+
+.error-text {
+    font-size: 0.8rem;
+    color:#ff0000;
+    text-decoration: none;
 }

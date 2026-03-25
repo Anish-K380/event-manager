@@ -1,0 +1,13 @@
+import {api} from './api.jsx';
+
+export const UserLogin = async (username, password) => {
+    const response = await fetch(`${ip}/login`, {
+	method: 'POST',
+	headers: {
+	    "Content-type": "application/json"
+	},
+	body: JSON.stringify({username, password})
+    });
+
+    return response.json();
+};

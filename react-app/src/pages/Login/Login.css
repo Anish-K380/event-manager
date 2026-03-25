@@ -3,6 +3,7 @@
 .login-title {
   text-align: center;
   font-weight: 600;
+  color: #000
 }
 
 .login-container {
@@ -37,6 +38,11 @@
 
 .login-button:hover {
   background: #4338ca;
+}
+
+.login-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .login-link {
